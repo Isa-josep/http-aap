@@ -1,19 +1,17 @@
 import { localhostUserToModel } from "../mappers/localhost-user.mapper";
 
-export const loadUsersByPage = async(page =1)=>{
-    const url=`${import.meta.env.VITE_BASE_URL}/users?_page=${page}`;
-    const res=await fetch(url);
-    const data=await res.json();
-    console.log(data);
-    console.log("data finished");
-    const dataArray = Array.isArray(data) ? data : [data];
+export const loadUsersByPage = async (page = 1) => {
+    const url = `${import.meta.env.VITE_BASE_URL}/users?_page=${page}`;
+    const res = await fetch(url);
+    const json = await res.json();
+    const data = json.data;
 
-    const users = [];
-    dataArray.forEach(userLike => {
-        const user = localhostUserToModel(userLike);
-        users.push(user);
-    });
-    
+    // Verifica si data es un array antes de mapear
+    if (!Array.isArray(data)) {
+        throw new Error('Expected data to be an array');
+    }
+
+    const users = data.map(userLike => localhostUserToModel(userLike));
     console.log(users);
     return users;
-}
+};
