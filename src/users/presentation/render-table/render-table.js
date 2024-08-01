@@ -47,5 +47,6 @@ export const RenderTable = (element) => {
         `;
     });
     table.querySelector('tbody').innerHTML = tableHTML;
-
+    console.log('RenderTable');
+    
 }
